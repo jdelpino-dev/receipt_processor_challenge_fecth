@@ -4,6 +4,6 @@
 **/.idea/
 **/.rapidAPI/
 **/challenge_docs/
-.vscode/
-.code-workspace
-.paw
+**.vscode/
+**.code-workspace
+**.paw
