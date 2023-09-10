@@ -1,6 +1,7 @@
 """
-Receipt Processor API
-Fetch Rewards Backend Engineerin Apprenticeship Coding Exercise
+Receipt Processor API — Main Application
+
+Fetch Rewards Backend Engineering Apprenticeship Coding Exercise
 Solution by: José Delpino
 September 2023
 

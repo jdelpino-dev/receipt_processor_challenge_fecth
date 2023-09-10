@@ -1,3 +1,14 @@
+"""
+Receipt Processor API – Receipt Class
+
+Fetch Rewards Backend Engineering Apprenticeship Coding Exercise
+Solution by: José Delpino
+September 2023
+
+Written in Python 3.11.5 and Flask 2.3.3
+"""
+
+
 class Receipt:
     """
     A class to represent a receipt. It will be used to store the receipt data,
