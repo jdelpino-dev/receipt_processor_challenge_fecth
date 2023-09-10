@@ -19,11 +19,10 @@ app = Flask(__name__)
 def process_receipt():
     # Get the request data and transforming it into a dictionary
     receipt_data = request.get_json()
-    receipt = Receipt(receipt_data)
 
     # Process the receipt: it will assing it an unique id,
     # calculate the points it was awarded, and store it in memory.
-    # receipt = Receipt(receipt_data['receipt'])
+    receipt = Receipt(receipt_data)
 
     # Returning the receipt id as a response
     # return jsonify(receipt.id)
