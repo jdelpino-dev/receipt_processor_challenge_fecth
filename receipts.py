@@ -8,7 +8,7 @@ September 2023
 Written in Python 3.11.5 and Flask 2.3.3
 """
 from typing import Dict
-import uuid  # Python standard library for generating unique ids
+from uuid import UUID, uuid4  # From Python standard library for unique ids
 from marshmallow import Schema, fields, validate, ValidationError
 
 
@@ -28,7 +28,7 @@ class Receipt:
         # outside this method in the specific route.
         self.validate_receipt(receipt)
 
-        self.id: uuid.UUID = self.generate_id()
+        self.id: UUID = self.generate_id()
         self.points: int = self.calculate_points()
         self.data: dict = receipt
 
@@ -41,13 +41,13 @@ class Receipt:
             # the detail errors
             raise ValidationError(f"Receipt validation failed: {errors}")
 
-    def generate_id(self) -> uuid.UUID:
+    def generate_id(self) -> UUID:
         """
         Generates an unique id for the receipt using uuid4, which
         is based on random numbers and has a very low probability
         of collision.
         """
-        return uuid.uuid4()
+        return uuid4()
 
     def calculate_points(self) -> int:
         """
@@ -66,7 +66,7 @@ class Receipt_Pool:
     """
 
     def __init__(self):
-        self.data: Dict[uuid.UUID, Receipt] = {}
+        self.data: Dict[UUID, Receipt] = {}
 
     def add_receipt(self, receipt: Receipt):
         # Safety check to avoid id collisions
@@ -75,13 +75,13 @@ class Receipt_Pool:
 
         self.data[receipt.id] = receipt
 
-    def get_receipt(self, receipt_id: uuid.UUID) -> Receipt:
+    def get_receipt(self, receipt_id: UUID) -> Receipt:
         return self.data[receipt_id]
 
-    def get_all_receipts(self) -> Dict[uuid.UUID, Receipt]:
+    def get_all_receipts(self) -> Dict[UUID, Receipt]:
         return self.data
 
-    def delete_receipt(self, receipt_id: uuid.UUID):
+    def delete_receipt(self, receipt_id: UUID):
         del self.data[receipt_id]
 
 
