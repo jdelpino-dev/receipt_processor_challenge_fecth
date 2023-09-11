@@ -28,6 +28,8 @@ def process_receipt():
     # Get the request data and transforming it into a dictionary
     receipt_data = request.get_json()
 
+    # Validate the receipt data from the request payload
+    # and process the receipt
     try:
         # Process the receipt: it will assing it an unique id,
         # calculate the points it was awarded, and store it in memory.
