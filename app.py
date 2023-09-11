@@ -44,10 +44,12 @@ or data source shared with other microservices.
 ------------------------------------------------------------------------
 """
 
-from flask import Flask, request, jsonify
-from receipts import Receipt
+from flask import Flask, request
+from receipts import Receipt, Receipt_Pool
 
+# Initialize the Flask application and the Receipt_Pool in memory
 app = Flask(__name__)
+receipt_pool = Receipt_Pool()
 
 
 # API routes
@@ -63,4 +65,4 @@ def process_receipt():
 
     # Returning the receipt id as a response
     # return jsonify(receipt.id)
-    return jsonify({"id": receipt.id})
+    return {"id": receipt.id}
