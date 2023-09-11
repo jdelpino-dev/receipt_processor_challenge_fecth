@@ -116,5 +116,5 @@ class ReceiptSchema(Schema):
 
 def get_logger():
     """Lazily import the app logger to avoid circular imports"""
-    from app import logger
-    return logger
+    from app import app_logger
+    return app_logger

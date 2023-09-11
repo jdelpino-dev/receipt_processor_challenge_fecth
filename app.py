@@ -25,6 +25,9 @@ receipt_pool = Receipt_Pool()
 
 # Set up logging
 
+# Create an alias for the Flask app logger
+app_logger = app.logger
+
 # Configure the logging settings to determine how logs should be handled.
 log_formatter = logging.Formatter('%(asctime)s - %(levelname)s: %(message)s')
 log_file = 'logs/app.log'  # Define the path to the log file
@@ -35,10 +38,10 @@ log_handler = RotatingFileHandler(log_file, maxBytes=100000, backupCount=3)
 # Set up the log handler and add it to the Flask app
 log_handler.setFormatter(log_formatter)
 log_handler.setLevel(logging.DEBUG)
-app.logger.addHandler(log_handler)
+app_logger.addHandler(log_handler)
 
 # Initializaton log message
-app.logger.info('Receipt Processor API started successfully.')
+app_logger.info('Receipt Processor API started successfully.')
 
 # API routes
 
@@ -47,8 +50,8 @@ app.logger.info('Receipt Processor API started successfully.')
 
 @app.before_request
 def log_request_info():
-    app.logger.debug('Headers: %s', request.headers)
-    app.logger.info('Body: %s', request.get_data())
+    app_logger.debug('Headers: %s', request.headers)
+    app_logger.info('Body: %s', request.get_data())
 
 
 @app.route('/receipts/process', methods=['POST'])
@@ -64,7 +67,10 @@ def process_receipt():
         receipt = Receipt(receipt_data)
 
         # Logs the if og the processed receipt
-        app.logger.info(f"Processed receipt with ID: {receipt.id}")
+        app_logger.info(f"Processed receipt with ID: {receipt.id}")
+
+        # Add the receipt to the receipt pool
+        receipt_pool.add_receipt(receipt)
 
         # Return the receipt id as a response
         return {"id": receipt.id}, 200
@@ -72,12 +78,12 @@ def process_receipt():
     except ValidationError as error:
         # If there's a validation error, log it, return the error message
         # and a 400 status code
-        app.logger.warning(f"Validation error occurred: {error}")
+        app_logger.warning(f"Validation error occurred: {error}")
         return {"error": str(error)}, 400
 
     except Exception:
         # Log the detailed error for debugging
-        app.logger.exception("An unexpected error occurred.")
+        app_logger.exception("An unexpected error occurred.")
         return (
             {"error": "An error occurred processing the receipt."},
             500
@@ -87,11 +93,10 @@ def process_receipt():
 @app.teardown_appcontext
 def cleanup(error=None):
     if error:
-        app.logger.error(f"Error during shutdown: {error}")
+        app_logger.error(f"Error during shutdown: {error}")
 
-    # app.logger.info(
+    # app_logger.info(
     #     "Application context is being torn down."
     #     "Cleanup operations go here."
     # )
-
-    app.logger.info("Application/Request context ended.")
+    app_logger.info("Application/Request context ended.")
