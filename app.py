@@ -75,11 +75,11 @@ def process_receipt():
         app.logger.warning(f"Validation error occurred: {error}")
         return {"error": str(error)}, 400
 
-    except Exception as error:
-        # Handle other unforeseen errors and log them
-        app.logger.error(f"An unexpected error occurred: {error}")
+    except Exception:
+        # Log the detailed error for debugging
+        app.logger.exception("An unexpected error occurred.")
         return (
-            {"error": f"An error occurred processing the receipt: {error}."},
+            {"error": "An error occurred processing the receipt."},
             500
         )
 
@@ -94,4 +94,4 @@ def cleanup(error=None):
     #     "Cleanup operations go here."
     # )
 
-    app.logger.info("Application stopped.")
+    app.logger.info("Application/Request context ended.")

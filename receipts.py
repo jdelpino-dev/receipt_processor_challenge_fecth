@@ -56,7 +56,8 @@ class Receipt:
         dynamic rules in the future. It will possible be refacttored
         into a separate class: Points_Calculator.
         """
-        raise NotImplementedError
+        pass
+        # raise NotImplementedError
 
 
 class Receipt_Pool:
@@ -95,19 +96,20 @@ class Receipt_Pool:
 
 class ItemSchema(Schema):
     shortDescription = fields.Str(
-        required=True, validate=validate.Regexp(r"^[\\w\\s\\-]+$"))
+        required=True, validate=validate.Regexp(r"^[\w\s\-]+$"))
     price = fields.Str(
-        required=True, validate=validate.Regexp(r"^\\d+\\.\\d{2}$"))
+        required=True, validate=validate.Regexp(r"^\d+\.\d{2}$"))
 
 
 class ReceiptSchema(Schema):
-    retailer = fields.Str(required=True, validate=validate.Regexp(r"^\\S+$"))
+    retailer = fields.Str(required=True, validate=validate.Regexp(r"^\S+$"))
     purchaseDate = fields.Date(required=True, format="%Y-%m-%d")
     purchaseTime = fields.Time(required=True, format="%H:%M")
     items = fields.List(fields.Nested(ItemSchema),
                         required=True, validate=validate.Length(min=1))
     total = fields.Str(
-        required=True, validate=validate.Regexp(r"^\\d+\\.\\d{2}$"))
+        required=True, validate=validate.Regexp(r"^\d+\.\d{2}$"))
+
 
 # Module helper functions
 
