@@ -74,6 +74,8 @@ class Receipt_Pool:
             receipt.id = receipt.generate_id()
 
         self.data[receipt.id] = receipt
+        app_logger = get_logger()
+        app_logger.info(f"Added receipt with ID {receipt.id} to the pool.")
 
     def get_receipt(self, receipt_id: UUID) -> Receipt:
         return self.data[receipt_id]
@@ -83,6 +85,8 @@ class Receipt_Pool:
 
     def delete_receipt(self, receipt_id: UUID):
         del self.data[receipt_id]
+        app_logger = get_logger()
+        app_logger.info(f"Deleted receipt with ID {receipt_id} from the pool.")
 
 
 # Validations Schemas for the Receipt class using marshmallow. The schemas
@@ -104,3 +108,11 @@ class ReceiptSchema(Schema):
                         required=True, validate=validate.Length(min=1))
     total = fields.Str(
         required=True, validate=validate.Regexp(r"^\\d+\\.\\d{2}$"))
+
+# Module helper functions
+
+
+def get_logger():
+    """Lazily import the app logger to avoid circular imports"""
+    from app import logger
+    return logger
