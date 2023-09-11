@@ -46,6 +46,7 @@ or data source shared with other microservices.
 
 from flask import Flask, request
 from receipts import Receipt, Receipt_Pool
+from marshmallow import ValidationError
 
 # Initialize the Flask application and the Receipt_Pool in memory
 app = Flask(__name__)
@@ -59,10 +60,22 @@ def process_receipt():
     # Get the request data and transforming it into a dictionary
     receipt_data = request.get_json()
 
-    # Process the receipt: it will assing it an unique id,
-    # calculate the points it was awarded, and store it in memory.
-    receipt = Receipt(receipt_data)
+    try:
+        # Process the receipt: it will assing it an unique id,
+        # calculate the points it was awarded, and store it in memory.
+        receipt = Receipt(receipt_data)
 
-    # Returning the receipt id as a response
-    # return jsonify(receipt.id)
-    return {"id": receipt.id}
+        # Return the receipt id as a response
+        return {"id": receipt.id}, 200
+
+    except ValidationError as error:
+        # If there's a validation error, return the error message
+        # and a 400 status code
+        return {"error": str(error)}, 400
+
+    except Exception as error:
+        # Handle other unforeseen errors
+        return (
+            {"error": f"An error occurred processing the receipt: {error}."},
+            500
+        )

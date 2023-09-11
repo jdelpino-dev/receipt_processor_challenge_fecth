@@ -9,6 +9,7 @@ Written in Python 3.11.5 and Flask 2.3.3
 """
 from typing import Dict
 import uuid  # Python standard library for generating unique ids
+from marshmallow import Schema, fields, validate, ValidationError
 
 
 class Receipt:
@@ -22,16 +23,23 @@ class Receipt:
     """
 
     def __init__(self, receipt: dict):
-        if self.validate_receipt(receipt):
-            self.id: uuid.UUID = self.generate_id()
-            self.points: int = self.calculate_points()
-            self.data: dict = receipt
+        # Attempt to validate the receipt. If validation fails,
+        # the ValidationError exception will be raised and can be caught
+        # outside this method in the specific route.
+        self.validate_receipt(receipt)
+
+        self.id: uuid.UUID = self.generate_id()
+        self.points: int = self.calculate_points()
+        self.data: dict = receipt
 
     def validate_receipt(self, receipt: dict) -> bool:
-        """
-        Validates the receipt data using marshmallow.
-        """
-        raise NotImplementedError
+        """ Use Marshmallow schema to validate the receipt data """
+        schema = ReceiptSchema()
+        errors = schema.validate(receipt)
+        if errors:
+            # If there are validation errors, raise an exception including
+            # the detail errors
+            raise ValidationError(f"Receipt validation failed: {errors}")
 
     def generate_id(self) -> uuid.UUID:
         """
@@ -75,3 +83,24 @@ class Receipt_Pool:
 
     def delete_receipt(self, receipt_id: uuid.UUID):
         del self.data[receipt_id]
+
+
+# Validations Schemas for the Receipt class using marshmallow. The schemas
+# are base in the regex patterns provided in challenge OpenAPI specification.
+
+
+class ItemSchema(Schema):
+    shortDescription = fields.Str(
+        required=True, validate=validate.Regexp(r"^[\\w\\s\\-]+$"))
+    price = fields.Str(
+        required=True, validate=validate.Regexp(r"^\\d+\\.\\d{2}$"))
+
+
+class ReceiptSchema(Schema):
+    retailer = fields.Str(required=True, validate=validate.Regexp(r"^\\S+$"))
+    purchaseDate = fields.Date(required=True, format="%Y-%m-%d")
+    purchaseTime = fields.Time(required=True, format="%H:%M")
+    items = fields.List(fields.Nested(ItemSchema),
+                        required=True, validate=validate.Length(min=1))
+    total = fields.Str(
+        required=True, validate=validate.Regexp(r"^\\d+\\.\\d{2}$"))
