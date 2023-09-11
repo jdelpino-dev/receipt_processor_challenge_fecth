@@ -2,8 +2,9 @@
 **/__interactive_sessions__/
 **/__additional_testing_sources__/
 **/.idea/
-**/.rapidAPI/
+**./rapidAPI/
 **/challenge_docs/
+**/other_envs_jmd/
 **.vscode/
 **.code-workspace
 **.paw

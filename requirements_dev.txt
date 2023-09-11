@@ -1,4 +1,4 @@
-# Use Python 3.11.5
+# Suggested Python==3.11.5
 
 autopep8==2.0.4
 blinker==1.6.2
