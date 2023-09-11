@@ -38,7 +38,7 @@ a point calculator class could be created to handle more dynamic
 and complex rules. This dynamic rules could be fetched from a database
 or data source shared with other microservices.
 
-### MORE... TODO/EDIT
+## MORE... TODO/EDIT
 
 Built a webservice that fulfils the documented API. The API is described below. A formal definition is provided 
 in the [api.yml](./api.yml) file, but the information in this README is sufficient for completion of this challenge. We will use the 

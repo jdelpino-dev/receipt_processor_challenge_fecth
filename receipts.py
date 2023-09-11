@@ -1,5 +1,5 @@
 """
-Receipt Processor API – Receipt Class
+Receipt Processor API - Receipt Class
 
 Fetch Rewards Backend Engineering Apprenticeship Coding Exercise
 Solution by: José Delpino
