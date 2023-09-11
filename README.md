@@ -1,7 +1,9 @@
 # Receipt Processor API and microservice
 ### Fetch Rewards Backend Engineering Apprenticeship Coding Exercise
 Solution by: José Delpino (delpinoivivas@gmail.com)
+
 September 2023
+
 Written in Python 3.11.5 and Flask 2.3.3
 
 ## Design Context
