@@ -1,5 +1,6 @@
 import json
 from receipts import Receipt
+from app import receipt_pool
 
 
 def test_process_valid_receipts(app, sample_receipt_data):
@@ -33,13 +34,13 @@ def test_get_receipts_valid_id(
         dict_of_ids_and_points):
     """Test getting receipts with valid ids."""
     # Add receipts to the pool that the endpoint can retrieve later
-    receipt_pool = app.receipt_pool
+    # receipt_pool = app.receipt_pool
 
     # Create receipts from valid sample data, add them to the pool, and
     # store separately their ids and points in a list.
     for receipt_data in sample_receipt_data:
         receipt = Receipt(receipt_data)
-        dict_of_ids_and_points[receipt.id] = receipt.points
+        dict_of_ids_and_points[receipt.id] = str(receipt.points)
         receipt_pool.add_receipt(receipt)
 
     # Test retrieval of receipts
