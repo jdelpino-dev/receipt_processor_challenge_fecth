@@ -100,7 +100,7 @@ def process_receipt():
 def get_points(receipt_id):
     # Validate the receipt id
     try:
-        receipt_id = UUID("ddsd", version=4)
+        receipt_id = UUID(str(receipt_id), version=4)
     except ValueError:
         return {"error": "Invalid receipt id."}, 400
 
@@ -111,7 +111,7 @@ def get_points(receipt_id):
         return {"error": "Receipt not found."}, 404
 
     # Return the receipt as a response
-    return str(receipt.points, 200)
+    return {"points": str(receipt.points)}, 200
 
 
 @app.teardown_appcontext
