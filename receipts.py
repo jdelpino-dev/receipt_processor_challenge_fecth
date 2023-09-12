@@ -159,7 +159,11 @@ class ItemSchema(Schema):
 # Schema for the receipt itself
 class ReceiptSchema(Schema):
     # Validates that the retailer's name contains only non-space characters.
-    # retailer = fields.Str(required=True, validate=validate.Regexp(r"^\S+$"))
+    # This will allow names with spaces, but not names with leading or
+    # trailing spaces. This is different from the regex pattern provided
+    # in the challenge OpenAPI specification, which doesn't allow
+    # spaces at all! Which is obviously wrong considering the examples
+    # provided in the same specification!
     retailer = fields.Str(
         required=True, validate=validate.Regexp(r"^\S(.*\S)?$"))
     # Validates if the input is in the format "YYYY-MM-DD"
