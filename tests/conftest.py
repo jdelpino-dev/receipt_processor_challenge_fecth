@@ -131,3 +131,22 @@ def list_of_receipt_ids(scope="module"):
     """Provide an empy list of receipt ids available to all tests
     in a module."""
     return list()
+
+
+@pytest.fixture
+def invalid_receipt_ids():
+    invalid_uuids = [
+        "12345678-1234-1234-1234-123456789012",
+        "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx",
+        "12345678-1234-5xxx-yxxx-123456789012",
+        "12345678-1234-4xxx-zxxx-123456789012",
+        "12345678-12341234-1234-123456789012",
+        "12345678-1234-4xxx-yxxx-1234567890",
+        "12345678-1234-4xxx-yxxx-123456789012345",
+        "ghijklmn-opqr-4stu-vwxy-zabcdefghijk",
+        "4682176491288",
+        "468217649128878300625673489047554342",
+        "Este es un id inválido",
+        "invalid_id"
+    ]
+    return invalid_uuids
