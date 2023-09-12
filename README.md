@@ -1,6 +1,6 @@
 # Receipt Processor API and Microservice
 ### Fetch Rewards Backend Engineering Apprenticeship Coding Exercise
-**Solution by:** José Delpino (delpinoivivas@gmail.com)
+**Solution by:** José Delpino [](mailto:example@example.com)
 
 **September 2023**
 
@@ -36,6 +36,21 @@ The Receipt Processor API is designed to handle the processing of receipts and a
 
 In the original challenge's OpenAPI specification, the regex pattern for the retailer's name did not allow for spaces. This omission was a potential oversight since real-world retailer names often contain spaces. The revised pattern allows names with spaces but prevents names with leading or trailing spaces. This adjustment ensures that the API can handle real-world retailer names while maintaining data integrity.
 
+---
+### Test Suite
+
+- The code is tested using `pytest` and it's currently passing all tests.
+
+- I recommend to run the tests using the following command:
+```bash
+`python -m pytest -v'
+```
+
+- The current test suite is not comprehensive and does not include end-to-end tests. The current tests are meant to serve as a foundation for future tests.
+
+- While the current tests cover a significant portion of the functionality, there are always more edge cases and scenarios that can be tested. Additional tests could be added to cover more nuanced scenarios or integrations.
+
+- Tests related to the `Receipt` class validation rely on the `marshmallow` library's `ValidationError`. It's essential to ensure that the schema in the `Receipt` class remains updated and in sync with the expected data structure.
 ---
 
 ## Future Improvements for Scalability and Production
