@@ -56,8 +56,42 @@ class Receipt:
         dynamic rules in the future. It will possible be refacttored
         into a separate class: Points_Calculator.
         """
-        pass
-        # raise NotImplementedError
+        points = 0
+
+        # One point for every alphanumeric character in the retailer's name
+        points += count_alphanumeric(self.data["retailer"])
+
+        # 50 points if the total is round dollar amount with no cents
+        if has_zero_cents(self.data["total"]):
+            points += 50
+
+        # 25 points if the total is multiple of 0.25
+        if float(self.data["total"]) % 0.25 == 0:
+            points += 25
+
+        # 5 points for every two items on the receipt
+        points += len(self.data["items"]) // 2 * 5
+
+        # If the trimmed lenght of the item description is a multiple of 3,
+        # multiply the price by 0.2 and round up to the nearest integer.
+        for item in self.data["items"]:
+            if len(item["shortDescription"].strip()) % 3 == 0:
+                points += round(float(item["price"]) * 0.2)
+
+        # 6 points if the day in the purchase date is odd
+        if get_day(self.data["purchaseDate"]) % 2 == 1:
+            points += 6
+
+        # 10 points if the time of the purchase is after 2:00 PM (14:00)
+        # and before 4:00 PM (16:00)
+        purchase_time_str = self.data["purchaseTime"]
+        time_list = purchase_time_str.split(":")
+        hour = time_list[0]
+        minutes = time_list[1]
+        if hour == 15 or (hour == 14 and minutes > 0):
+            points += 10
+
+        return points
 
 
 class Receipt_Pool:
