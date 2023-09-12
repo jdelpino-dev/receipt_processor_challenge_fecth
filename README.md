@@ -1,6 +1,6 @@
 # Receipt Processor API and Microservice
 ### Fetch Rewards Backend Engineering Apprenticeship Coding Exercise
-**Solution by:** José Delpino [](mailto:example@example.com)
+**Solution by:** José Delpino [delpinoivivas@gmail.com](mailto:delpinoivivas@gmail.com)
 
 **September 2023**
 
@@ -171,7 +171,7 @@ This endpoint retrieves the points awarded for a specific receipt using its uniq
 - While not fully production-ready, it serves as a foundation upon which additional features and optimizations can be built.
 
 For further queries or clarifications, feel free to reach out to José Delpino
-at [](mailto:example@example.com)
+at [delpinoivivas@gmail.com](mailto:delpinoivivas@gmail.com)
 
 
 ---
