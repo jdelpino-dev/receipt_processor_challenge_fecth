@@ -104,7 +104,12 @@ class ItemSchema(Schema):
 class ReceiptSchema(Schema):
     retailer = fields.Str(required=True, validate=validate.Regexp(r"^\S+$"))
     purchaseDate = fields.Date(required=True, format="%Y-%m-%d")
-    purchaseTime = fields.Time(required=True, format="%H:%M")
+    purchaseTime = fields.Time(
+        required=True,
+        format="%H:%M",
+        validate=validate.Regexp(r"^([01]?[0-9]|2[0-3]):[0-5][0-9]$")
+    )
+
     items = fields.List(fields.Nested(ItemSchema),
                         required=True, validate=validate.Length(min=1))
     total = fields.Str(
