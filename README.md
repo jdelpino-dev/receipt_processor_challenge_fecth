@@ -7,6 +7,33 @@
 **Written in** Python 3.11.5 and Flask 2.3.3
 
 ---
+## Table of Contents
+
+- [Receipt Processor API and Microservice](#receipt-processor-api-and-microservice)
+    - [Fetch Rewards Backend Engineering Apprenticeship Coding Exercise](#fetch-rewards-backend-engineering-apprenticeship-coding-exercise)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Design Context](#design-context)
+    - [Assumptions](#assumptions)
+    - [Focus](#focus)
+  - [Problem with the Retailer Name in the Original API Specification](#problem-with-the-retailer-name-in-the-original-api-specification)
+  - [Dockerizing the Receipt Processor API](#dockerizing-the-receipt-processor-api)
+    - [Building the Docker Container](#building-the-docker-container)
+    - [Running the App (by default it runs in debug mode)](#running-the-app-by-default-it-runs-in-debug-mode)
+      - [Port Troubleshooting](#port-troubleshooting)
+    - [Running the App in regular Mode](#running-the-app-in-regular-mode)
+      - [Port Troubleshooting](#port-troubleshooting-1)
+    - [Running the Tests](#running-the-tests)
+    - [Test Suite](#test-suite)
+  - [Future Improvements for Scalability and Production](#future-improvements-for-scalability-and-production)
+  - [API Endpoints](#api-endpoints)
+    - [Process Receipts](#process-receipts)
+    - [Get Points](#get-points)
+  - [Point Calculation Rules](#point-calculation-rules)
+  - [Self Evaluation](#self-evaluation)
+  - [Examples](#examples)
+
+---
 
 ## Introduction
 
