@@ -1,5 +1,5 @@
 import pytest
-from receipts import Receipt, Receipt_Pool
+from receipts import Receipt
 from marshmallow import ValidationError
 
 
@@ -27,7 +27,6 @@ def test_generate_id(sample_receipt_data):
 
 
 def test_points_calculation(sample_receipt_data):
-    # We will assume the points for the two receipts are as provided in your sample
     expected_points = [17, 109, 28]
 
     for data, points in zip(sample_receipt_data, expected_points):

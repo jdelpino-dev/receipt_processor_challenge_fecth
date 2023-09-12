@@ -68,12 +68,6 @@ def filled_receipt_pool(sample_receipt_data):
 
 
 @pytest.fixture
-def receipt_pool():
-    """Create a Receipt_Pool instance."""
-    return Receipt_Pool()
-
-
-@pytest.fixture
 def invalid_receipt_data():
     """Provide a collection of invalid receipt data."""
     return [
@@ -81,7 +75,9 @@ def invalid_receipt_data():
             # Missing retailer
             "purchaseDate": "2022-01-01",
             "purchaseTime": "13:01",
-            "items": [{"price": "6.49", "shortDescription": "Mountain Dew 12PK"}],
+            "items": [
+                {"price": "6.49", "shortDescription": "Mountain Dew 12PK"}
+            ],
             "total": "6.49"
         },
         {
@@ -89,7 +85,9 @@ def invalid_receipt_data():
             "retailer": "Target",
             "purchaseDate": "Invalid-Date",
             "purchaseTime": "13:01",
-            "items": [{"price": "6.49", "shortDescription": "Mountain Dew 12PK"}],
+            "items": [
+                {"price": "6.49", "shortDescription": "Mountain Dew 12PK"}
+            ],
             "total": "6.49"
         },
         {
@@ -97,7 +95,9 @@ def invalid_receipt_data():
             "retailer": "Target",
             "purchaseDate": "2022-01-01",
             "purchaseTime": "Invalid-Time",  # Invalid time
-            "items": [{"price": "6.49", "shortDescription": "Mountain Dew 12PK"}],
+            "items": [
+                {"price": "6.49", "shortDescription": "Mountain Dew 12PK"}
+            ],
             "total": "6.49"
         },
         {
