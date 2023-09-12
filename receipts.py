@@ -97,7 +97,8 @@ class Receipt_Pool:
 # Schema for individual items on a receipt.
 class ItemSchema(Schema):
     # Validates that the short description contains only alphanumeric
-    # characters, spaces, and hyphens.
+    # characters, spaces, and hyphens. Accepts descriptions with trailing and
+    # leading spaces.
     shortDescription = fields.Str(
         required=True, validate=validate.Regexp(r"^[\w\s\-]+$"))
     # Validates that the price is in the format of digits, followed by
