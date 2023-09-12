@@ -84,11 +84,8 @@ class Receipt:
 
         # 10 points if the time of the purchase is after 2:00 PM (14:00)
         # and before 4:00 PM (16:00)
-        purchase_time_str = self.data["purchaseTime"]
-        time_list = purchase_time_str.split(":")
-        hour = time_list[0]
-        minutes = time_list[1]
-        if hour == 15 or (hour == 14 and minutes > 0):
+        hour, minute = split_time(self.data["purchaseTime"])
+        if hour == 15 or (hour == 14 and minute > 0):
             points += 10
 
         return points
@@ -182,3 +179,10 @@ def count_alphanumeric(s):
 def get_day(date_str: str) -> int:
     """Get the day from a date string in the format YYYY-MM-DD"""
     return int(date_str.split("-")[2])
+
+
+def split_time(time_str: str) -> tuple:
+    time_list = time_str.split(":")
+    hour = time_list[0]
+    minutes = time_list[1]
+    return hour, minutes
