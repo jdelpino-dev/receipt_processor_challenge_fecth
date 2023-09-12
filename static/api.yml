@@ -72,7 +72,13 @@ components:
                 retailer:
                     description: The name of the retailer or store the receipt is from.
                     type: string
-                    pattern: "^\\S+$"
+                    # I had to change the regex pattern provided in the original
+                    # challenge OpenAPI specification, which doesn't allow
+                    # spaces at all! That is obviously wrong considering the examples
+                    # provided in the readme file.
+                    # The new pattern allows names with spaces, but not names
+                    # with leading or trailing spaces.
+                    pattern: "^\\S(.*\\S)?$" 
                     example: "Target"
                 purchaseDate:
                     description: The date of the purchase printed on the receipt.
