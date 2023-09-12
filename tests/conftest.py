@@ -117,3 +117,17 @@ def invalid_receipt_data():
             "total": "6"
         }
     ]
+
+
+@pytest.fixture
+def receipt_pool(scope="module"):
+    """Create an empty Receipt_Pool instance available to all tests
+    in a module."""
+    return Receipt_Pool()
+
+
+@pytest.fixture
+def list_of_receipt_ids(scope="module"):
+    """Provide an empy list of receipt ids available to all tests
+    in a module."""
+    return list()
