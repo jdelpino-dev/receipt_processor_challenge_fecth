@@ -29,7 +29,7 @@ class Receipt:
         self.validate_receipt(receipt)
 
         self.id: UUID = self.generate_id()
-        self.points: int = self.calculate_points()
+        self.points: int = self.calculate_points(receipt)
         self.data: dict = receipt
 
     def validate_receipt(self, receipt: dict) -> bool:
@@ -49,7 +49,7 @@ class Receipt:
         """
         return uuid4()
 
-    def calculate_points(self) -> int:
+    def calculate_points(self, receipt: dict) -> int:
         """
         Calculates the points awarded for the receipt. It currently
         uses hardcoded rules, but it will be extended to use
@@ -59,32 +59,32 @@ class Receipt:
         points = 0
 
         # One point for every alphanumeric character in the retailer's name
-        points += count_alphanumeric(self.data["retailer"])
+        points += count_alphanumeric(receipt["retailer"])
 
         # 50 points if the total is round dollar amount with no cents
-        if has_zero_cents(self.data["total"]):
+        if has_zero_cents(receipt["total"]):
             points += 50
 
         # 25 points if the total is multiple of 0.25
-        if float(self.data["total"]) % 0.25 == 0:
+        if float(receipt["total"]) % 0.25 == 0:
             points += 25
 
         # 5 points for every two items on the receipt
-        points += len(self.data["items"]) // 2 * 5
+        points += len(receipt["items"]) // 2 * 5
 
         # If the trimmed lenght of the item description is a multiple of 3,
         # multiply the price by 0.2 and round up to the nearest integer.
-        for item in self.data["items"]:
+        for item in receipt["items"]:
             if len(item["shortDescription"].strip()) % 3 == 0:
                 points += round(float(item["price"]) * 0.2)
 
         # 6 points if the day in the purchase date is odd
-        if get_day(self.data["purchaseDate"]) % 2 == 1:
+        if get_day(receipt["purchaseDate"]) % 2 == 1:
             points += 6
 
         # 10 points if the time of the purchase is after 2:00 PM (14:00)
         # and before 4:00 PM (16:00)
-        hour, minute = split_time(self.data["purchaseTime"])
+        hour, minute = split_time(receipt["purchaseTime"])
         if hour == 15 or (hour == 14 and minute > 0):
             points += 10
 
@@ -152,11 +152,14 @@ class ItemSchema(Schema):
 class ReceiptSchema(Schema):
     # Validates that the retailer's name contains only non-space characters.
     retailer = fields.Str(required=True, validate=validate.Regexp(r"^\S+$"))
-    purchaseDate = fields.Date(required=True, format="%Y-%m-%d")
-    # Validates if the input is in a 24-hour format like HH:MM
-    purchaseTime = fields.Time(
+    # Validates if the input is in the format "YYYY-MM-DD"
+    purchaseDate = fields.Str(
         required=True,
-        format="%H:%M",
+        validate=validate.Regexp(r"^\d{4}-\d{2}-\d{2}$")
+    )
+    # Validates if the input is in a 24-hour format like "HH:MM"
+    purchaseTime = fields.Str(
+        required=True,
         validate=validate.Regexp(r"^([01]?[0-9]|2[0-3]):[0-5][0-9]$")
     )
     # Validates that there's at least one item in the receipt.
