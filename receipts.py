@@ -122,3 +122,8 @@ def get_logger():
 def has_zero_cents(price_str: str) -> bool:
     _, cents = price_str.split(".")
     return cents == "00"
+
+
+def count_alphanumeric(s):
+    """Count the number of alphanumeric characters in a string"""
+    return sum(1 for char in s if char.isalnum())
