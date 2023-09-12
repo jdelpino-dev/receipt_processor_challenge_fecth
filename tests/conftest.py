@@ -128,9 +128,16 @@ def receipt_pool(scope="module"):
 
 @pytest.fixture
 def list_of_receipt_ids(scope="module"):
-    """Provide an empy list of receipt ids available to all tests
+    """Provide an empy list of receipt is available to all tests
     in a module."""
     return list()
+
+
+@pytest.fixture
+def dict_of_ids_and_points(scope="function"):
+    """Provide and empty dictionary of receipt ids and points that
+    is only available to tests in a function."""
+    return dict()
 
 
 @pytest.fixture
