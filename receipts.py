@@ -110,15 +110,23 @@ class Receipt_Pool:
         app_logger.info(f"Added receipt with ID {receipt.id} to the pool.")
 
     def get_receipt(self, receipt_id: UUID) -> Receipt:
-        return self.data[receipt_id]
+        return self.data.get(receipt_id, None)
 
     def get_all_receipts(self) -> Dict[UUID, Receipt]:
         return self.data
 
-    def delete_receipt(self, receipt_id: UUID):
-        del self.data[receipt_id]
+    def delete_receipt(self, receipt_id: UUID) -> bool:
         app_logger = get_logger()
-        app_logger.info(f"Deleted receipt with ID {receipt_id} from the pool.")
+        if self.data.get(receipt_id, None):
+            del self.data[receipt_id]
+            app_logger.info(
+                f"Deleted receipt with ID {receipt_id} from the pool.")
+            return True
+
+        else:
+            app_logger.warning(
+                f"Attempted to delete receipt with ID {receipt_id}, but it was not found in the pool.")
+            return False
 
 
 # Validations Schemas for the Receipt class using marshmallow. The schemas
