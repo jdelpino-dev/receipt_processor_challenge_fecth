@@ -113,8 +113,12 @@ class ReceiptSchema(Schema):
 
 # Module helper functions
 
-
 def get_logger():
     """Lazily import the app logger to avoid circular imports"""
     from app import app_logger
     return app_logger
+
+
+def has_zero_cents(price_str: str) -> bool:
+    _, cents = price_str.split(".")
+    return cents == "00"
