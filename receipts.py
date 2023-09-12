@@ -125,7 +125,9 @@ class Receipt_Pool:
 
         else:
             app_logger.warning(
-                f"Attempted to delete receipt with ID {receipt_id}, but it was not found in the pool.")
+                f"Attempted to delete receipt with ID {receipt_id}"
+                ", but it was not found in the pool."
+            )
             return False
 
 
