@@ -11,16 +11,21 @@ Written in Python 3.11.5 and Flask 2.3.3
 
 ------------------------------------------------------------------------
 """
-
+# Flask imports
 from flask import Flask, request
+# Classes for the Receipt and Receipt_Pool
 from receipts import Receipt, Receipt_Pool
+# Marshmallow for data validation of the request payload
 from marshmallow import ValidationError
+# Logging imports
 import logging
 from logging.handlers import RotatingFileHandler
 
 
-# Initialize the Flask application and the Receipt_Pool in memory
+# Initialize and config the Flask application
 app = Flask(__name__)
+
+# Initialize the Receipt_Pool object to store the receipts
 receipt_pool = Receipt_Pool()
 
 # Set up logging
