@@ -23,8 +23,8 @@
       - [Port Troubleshooting](#port-troubleshooting)
     - [Running the App in regular Mode](#running-the-app-in-regular-mode)
       - [Port Troubleshooting](#port-troubleshooting-1)
-    - [Running the Tests](#running-the-tests)
-    - [Test Suite](#test-suite)
+    - [Running the Tests in the Docker Container](#running-the-tests-in-the-docker-container)
+  - [Test Suite](#test-suite)
   - [Future Improvements for Scalability and Production](#future-improvements-for-scalability-and-production)
   - [API Endpoints](#api-endpoints)
     - [Process Receipts](#process-receipts)
@@ -100,7 +100,7 @@ docker run -p 5001:5000 -e FLASK_APP=app.py receipt-processor:latest flask run -
 
 All the port troubleshooting mentioned above applies to this command as well.
 
-### Running the Tests
+### Running the Tests in the Docker Container
 
 To run the unit tests inside the Docker container, use:
 
@@ -111,7 +111,7 @@ docker run receipt-processor:latest python -m pytest -v
 This command will execute all the tests and display the results.
 
 ---
-### Test Suite
+## Test Suite
 
 - The code is tested using `pytest` and it's currently passing all tests.
 
