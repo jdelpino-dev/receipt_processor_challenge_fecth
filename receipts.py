@@ -143,3 +143,8 @@ def has_zero_cents(price_str: str) -> bool:
 def count_alphanumeric(s):
     """Count the number of alphanumeric characters in a string"""
     return sum(1 for char in s if char.isalnum())
+
+
+def get_day(date_str: str) -> int:
+    """Get the day from a date string in the format YYYY-MM-DD"""
+    return int(date_str.split("-")[2])
