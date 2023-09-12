@@ -10,6 +10,7 @@ Written in Python 3.11.5 and Flask 2.3.3
 from typing import Dict
 from uuid import UUID, uuid4  # From Python standard library for unique ids
 from marshmallow import Schema, fields, validate, ValidationError
+from math import ceil
 
 
 class Receipt:
@@ -60,33 +61,40 @@ class Receipt:
 
         # One point for every alphanumeric character in the retailer's name
         points += count_alphanumeric(receipt["retailer"])
+        # print("1", points)
 
         # 50 points if the total is round dollar amount with no cents
         if has_zero_cents(receipt["total"]):
             points += 50
+        # print("2", points)
 
         # 25 points if the total is multiple of 0.25
         if float(receipt["total"]) % 0.25 == 0:
             points += 25
+        # print("3", points)
 
         # 5 points for every two items on the receipt
-        points += len(receipt["items"]) // 2 * 5
+        points += (len(receipt["items"]) // 2) * 5
+        # print("4", points)
 
         # If the trimmed lenght of the item description is a multiple of 3,
         # multiply the price by 0.2 and round up to the nearest integer.
         for item in receipt["items"]:
             if len(item["shortDescription"].strip()) % 3 == 0:
-                points += round(float(item["price"]) * 0.2)
+                points += ceil(float(item["price"]) * 0.2)
+        # print("5", points)
 
         # 6 points if the day in the purchase date is odd
         if get_day(receipt["purchaseDate"]) % 2 == 1:
             points += 6
+        # print("6", points)
 
         # 10 points if the time of the purchase is after 2:00 PM (14:00)
         # and before 4:00 PM (16:00)
         hour, minute = split_time(receipt["purchaseTime"])
         if hour == 15 or (hour == 14 and minute > 0):
             points += 10
+        # print("7", points)
 
         return points
 
@@ -151,7 +159,9 @@ class ItemSchema(Schema):
 # Schema for the receipt itself
 class ReceiptSchema(Schema):
     # Validates that the retailer's name contains only non-space characters.
-    retailer = fields.Str(required=True, validate=validate.Regexp(r"^\S+$"))
+    # retailer = fields.Str(required=True, validate=validate.Regexp(r"^\S+$"))
+    retailer = fields.Str(
+        required=True, validate=validate.Regexp(r"^\S(.*\S)?$"))
     # Validates if the input is in the format "YYYY-MM-DD"
     purchaseDate = fields.Str(
         required=True,
