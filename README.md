@@ -37,6 +37,53 @@ The Receipt Processor API is designed to handle the processing of receipts and a
 In the original challenge's OpenAPI specification, the regex pattern for the retailer's name did not allow for spaces. This omission was a potential oversight since real-world retailer names often contain spaces. The revised pattern allows names with spaces but prevents names with leading or trailing spaces. This adjustment ensures that the API can handle real-world retailer names while maintaining data integrity.
 
 ---
+## Dockerizing the Receipt Processor API
+
+### Building the Docker Container
+
+To build a Docker container for the Receipt Processor API, navigate to the project's root directory and run:
+
+```bash
+docker build -t receipt-processor:latest .
+```
+
+### Running the App (by default it runs in debug mode)
+
+Once the Docker image is built, you can run the Flask app with:
+
+```bash
+docker run -p 5000:5000 receipt-processor:latest
+```
+
+This command runs the app in debug mode. The app should now be accessible at `http://localhost:5000`.
+
+#### Port Troubleshooting
+
+If you have trouble running the app or accessing the API, please ensure that port 5000 is not in use by another process. You can try changing the port mapping in the `docker run` command to a different port (e.g., `-p 5001:5000`), and so on. Common ports that could be available are 5000-5008, 5500-5509, 8000-8008, and 8080-8088.
+
+### Running the App in regular Mode
+
+If don't want to run the app in debug mode you must use a different command to run the app. this command will override the original command in the Dockerfile and will run the app in regular mode.
+
+\```bash
+docker run -p 5001:5000 -e FLASK_APP=app.py receipt-processor:latest flask run --host=0.0.0.0
+\```
+
+#### Port Troubleshooting
+
+All the port troubleshooting mentioned above applies to this command as well.
+
+### Running the Tests
+
+To run the unit tests inside the Docker container, use:
+
+\```bash
+docker run receipt-processor:latest python -m pytest -v
+\```
+
+This command will execute all the tests and display the results.
+
+---
 ### Test Suite
 
 - The code is tested using `pytest` and it's currently passing all tests.
