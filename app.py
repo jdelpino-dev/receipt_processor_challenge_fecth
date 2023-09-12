@@ -17,6 +17,8 @@ from flask import Flask, request
 from receipts import Receipt, Receipt_Pool
 # Marshmallow for data validation of the request payload
 from marshmallow import ValidationError
+# From Python standard library for unique ids
+from uuid import uuid4
 # Logging imports
 import logging
 from logging.handlers import RotatingFileHandler
@@ -48,11 +50,10 @@ app_logger.addHandler(log_handler)
 # Initializaton log message
 app_logger.info('Receipt Processor API started successfully.')
 
+
 # API routes
 
 # Monitor/Log the types of requests your server is receiving
-
-
 @app.before_request
 def log_request_info():
     app_logger.debug('Headers: %s', request.headers)
@@ -93,6 +94,24 @@ def process_receipt():
             {"error": "An error occurred processing the receipt."},
             500
         )
+
+
+@app.route('/receipts/<receipt_id>/points', methods=['GET'])
+def get_points(receipt_id):
+    # Validate the receipt id
+    try:
+        receipt_id = uuid4(receipt_id)
+    except ValueError:
+        return {"error": "Invalid receipt id."}, 400
+
+    # Get the receipt from the receipt pool
+    receipt = receipt_pool.get_receipt(receipt_id)
+    # If the receipt is not found, return a 404 status code
+    if not receipt:
+        return {"error": "Receipt not found."}, 404
+
+    # Return the receipt as a response
+    return str(receipt.points, 200)
 
 
 @app.teardown_appcontext
