@@ -43,16 +43,16 @@ def test_generate_id():
 def test_points_calculation():
     valid_data = {
         "retailer": "Target1",  # 7 alphanumeric chars
-        "purchaseDate": "2022-01-02",  # Odd day: +6 points
+        "purchaseDate": "2022-01-02",  # Not odd: +0 points
         "purchaseTime": "15:01",  # After 2 PM but before 4 PM: +10 points
         "items": [
-            # Not multiple of 3
+            # No points here
             {"price": "6.49", "shortDescription": "Mountain Dew 12PK"}
         ],
-        "total": "6.49"  # Not 0 cents, not multiple of 0.25
+        "total": "6.49"  # Not 0 cents, not multiple of 0.25: +0 points
     }
     receipt = Receipt(valid_data)
-    expected_points = 7 + 6 + 10
+    expected_points = 7 + 10
     assert receipt.points == expected_points
 
 
