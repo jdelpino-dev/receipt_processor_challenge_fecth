@@ -3,98 +3,56 @@ from receipts import Receipt, Receipt_Pool
 from marshmallow import ValidationError
 
 
-def test_receipt_validation():
-    # Test a valid receipt
-    valid_data = {
-        "retailer": "Target",
-        "purchaseDate": "2022-01-01",
-        "purchaseTime": "13:01",
-        "items": [{"price": "6.49", "shortDescription": "Mountain Dew 12PK"}],
-        "total": "6.49"
-    }
-    receipt = Receipt(valid_data)
-    assert receipt is not None
+def test_receipt_validation(sample_receipt_data, invalid_receipt_data):
+    # Test each sample receipt data for validity
+    for data in sample_receipt_data:
+        receipt = Receipt(data)
+        assert receipt is not None
 
-    # Test an invalid receipt
-    invalid_data = {
-        # Missing retailer
-        "purchaseDate": "2022-01-01",
-        "purchaseTime": "13:01",
-        "items": [{"price": "6.49", "shortDescription": "Mountain Dew 12PK"}],
-        "total": "6.49"
-    }
-    with pytest.raises(ValidationError):
-        Receipt(invalid_data)
+    # Test each invalid receipt data for errors
+    for data in invalid_receipt_data:
+        with pytest.raises(ValidationError):
+            Receipt(data)
 
 
-def test_generate_id():
-    valid_data = {
-        "retailer": "Target",
-        "purchaseDate": "2022-01-01",
-        "purchaseTime": "13:01",
-        "items": [{"price": "6.49", "shortDescription": "Mountain Dew 12PK"}],
-        "total": "6.49"
-    }
-    receipt = Receipt(valid_data)
-    assert receipt.id is not None
-    assert len(str(receipt.id)) == 36  # UUIDs are 36 characters long
+def test_generate_id(sample_receipt_data):
+    # Test that each receipt gets a unique ID
+    ids = set()
+    for data in sample_receipt_data:
+        receipt = Receipt(data)
+        assert receipt.id is not None
+        assert len(str(receipt.id)) == 36  # UUIDs are 36 characters long
+        assert receipt.id not in ids
+        ids.add(receipt.id)
 
 
-def test_points_calculation():
-    valid_data = {
-        "retailer": "Target1",  # 7 alphanumeric chars
-        "purchaseDate": "2022-01-02",  # Not odd: +0 points
-        "purchaseTime": "15:01",  # After 2 PM but before 4 PM: +10 points
-        "items": [
-            # No points here
-            {"price": "6.49", "shortDescription": "Mountain Dew 12PK"}
-        ],
-        "total": "6.49"  # Not 0 cents, not multiple of 0.25: +0 points
-    }
-    receipt = Receipt(valid_data)
-    expected_points = 7 + 10
-    assert receipt.points == expected_points
+def test_points_calculation(sample_receipt_data):
+    # We will assume the points for the two receipts are as provided in your sample
+    expected_points = [17, 109, 28]
+
+    for data, points in zip(sample_receipt_data, expected_points):
+        receipt = Receipt(data)
+        assert receipt.points == points
 
 
-def test_add_receipt_to_pool():
-    pool = Receipt_Pool()
-    valid_data = {
-        "retailer": "Target",
-        "purchaseDate": "2022-01-01",
-        "purchaseTime": "13:01",
-        "items": [{"price": "6.49", "shortDescription": "Mountain Dew 12PK"}],
-        "total": "6.49"
-    }
-    receipt = Receipt(valid_data)
-    pool.add_receipt(receipt)
-    assert receipt.id in pool.data
+def test_add_receipt_to_pool(filled_receipt_pool, sample_receipt_data):
+    # This test will check that all sample receipts are indeed in the pool
+    for data in sample_receipt_data:
+        receipt = Receipt(data)
+        assert receipt.id in filled_receipt_pool.data
 
 
-def test_get_receipt_from_pool():
-    pool = Receipt_Pool()
-    valid_data = {
-        "retailer": "Target",
-        "purchaseDate": "2022-01-01",
-        "purchaseTime": "13:01",
-        "items": [{"price": "6.49", "shortDescription": "Mountain Dew 12PK"}],
-        "total": "6.49"
-    }
-    receipt = Receipt(valid_data)
-    pool.add_receipt(receipt)
-    retrieved_receipt = pool.get_receipt(receipt.id)
-    assert retrieved_receipt.id == receipt.id
+def test_get_receipt_from_pool(filled_receipt_pool, sample_receipt_data):
+    # Test retrieval of receipts
+    for data in sample_receipt_data:
+        receipt = Receipt(data)
+        retrieved_receipt = filled_receipt_pool.get_receipt(receipt.id)
+        assert retrieved_receipt.id == receipt.id
 
 
-def test_delete_receipt_from_pool():
-    pool = Receipt_Pool()
-    valid_data = {
-        "retailer": "Target",
-        "purchaseDate": "2022-01-01",
-        "purchaseTime": "13:01",
-        "items": [{"price": "6.49", "shortDescription": "Mountain Dew 12PK"}],
-        "total": "6.49"
-    }
-    receipt = Receipt(valid_data)
-    pool.add_receipt(receipt)
-    pool.delete_receipt(receipt.id)
-    assert receipt.id not in pool.data
+def test_delete_receipt_from_pool(filled_receipt_pool, sample_receipt_data):
+    # Test deletion of receipts
+    for data in sample_receipt_data:
+        receipt = Receipt(data)
+        filled_receipt_pool.delete_receipt(receipt.id)
+        assert receipt.id not in filled_receipt_pool.data
