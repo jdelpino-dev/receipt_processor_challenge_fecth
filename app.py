@@ -18,7 +18,7 @@ from receipts import Receipt, Receipt_Pool
 # Marshmallow for data validation of the request payload
 from marshmallow import ValidationError
 # From Python standard library for unique ids
-from uuid import uuid4
+from uuid import UUID
 # Logging imports
 import logging
 from logging.handlers import RotatingFileHandler
@@ -100,7 +100,7 @@ def process_receipt():
 def get_points(receipt_id):
     # Validate the receipt id
     try:
-        receipt_id = uuid4(receipt_id)
+        receipt_id = UUID("ddsd", version=4)
     except ValueError:
         return {"error": "Invalid receipt id."}, 400
 
