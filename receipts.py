@@ -94,24 +94,34 @@ class Receipt_Pool:
 # are base in the regex patterns provided in challenge OpenAPI specification.
 
 
+# Schema for individual items on a receipt.
 class ItemSchema(Schema):
+    # Validates that the short description contains only alphanumeric
+    # characters, spaces, and hyphens.
     shortDescription = fields.Str(
         required=True, validate=validate.Regexp(r"^[\w\s\-]+$"))
+    # Validates that the price is in the format of digits, followed by
+    # a period, and then exactly two digits.
     price = fields.Str(
         required=True, validate=validate.Regexp(r"^\d+\.\d{2}$"))
 
 
+# Schema for the receipt itself
 class ReceiptSchema(Schema):
+    # Validates that the retailer's name contains only non-space characters.
     retailer = fields.Str(required=True, validate=validate.Regexp(r"^\S+$"))
     purchaseDate = fields.Date(required=True, format="%Y-%m-%d")
+    # Validates if the input is in a 24-hour format like HH:MM
     purchaseTime = fields.Time(
         required=True,
         format="%H:%M",
         validate=validate.Regexp(r"^([01]?[0-9]|2[0-3]):[0-5][0-9]$")
     )
-
+    # Validates that there's at least one item in the receipt.
     items = fields.List(fields.Nested(ItemSchema),
                         required=True, validate=validate.Length(min=1))
+    # Similar to the item price, this validates that the total is
+    # in the correct monetary format.
     total = fields.Str(
         required=True, validate=validate.Regexp(r"^\d+\.\d{2}$"))
 
