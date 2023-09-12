@@ -198,4 +198,4 @@ def split_time(time_str: str) -> tuple:
     time_list = time_str.split(":")
     hour = time_list[0]
     minutes = time_list[1]
-    return hour, minutes
+    return int(hour), int(minutes)
