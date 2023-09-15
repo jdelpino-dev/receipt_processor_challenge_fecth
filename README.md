@@ -77,6 +77,10 @@ This command runs the app in debug mode. The app should now be accessible at `ht
 
 If you have trouble running the app or accessing the API, please ensure that port 5000 is not in use by another process. You can try changing the port mapping in the `docker run` command to a different port (e.g., `-p 5001:5000`), and so on. Common ports that could be available are 5000-5008, 5500-5509, 8000-8008, and 8080-8088.
 
+#### Permissions Troubleshooting
+
+Sometimes the docker commands need to be run in sudo mode, if you have problems running the commands try to run them with sudo.
+
 ### Running the App in regular Mode
 
 If don't want to run the app in debug mode you must use a different command to run the app. this command will override the original command in the Dockerfile and will run the app in regular mode.
