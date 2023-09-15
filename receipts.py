@@ -7,6 +7,7 @@ September 2023
 
 Written in Python 3.11.5 and Flask 2.3.3
 """
+import os
 from typing import Dict
 from uuid import UUID, uuid4  # From Python standard library for unique ids
 from marshmallow import Schema, fields, validate, ValidationError
@@ -213,3 +214,10 @@ def split_time(time_str: str) -> tuple:
     hour = time_list[0]
     minutes = time_list[1]
     return int(hour), int(minutes)
+
+# Helper function for folder verification
+
+
+def verify_folder(folder):
+    if not os.path.exists(folder):
+        os.makedirs(folder)

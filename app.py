@@ -22,7 +22,13 @@ from uuid import UUID
 # Logging imports
 import logging
 from logging.handlers import RotatingFileHandler
+# Other imports
+from receipts import verify_folder
 
+
+# Verify that the logs directory exists. The logs will be stored there.
+# This is very important because the logging module will not create it.
+verify_folder('logs')
 
 # Initialize and config the Flask application
 app = Flask(__name__)

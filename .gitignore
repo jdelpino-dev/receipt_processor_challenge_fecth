@@ -8,5 +8,7 @@
 **/keys/
 **.vscode/
 **.code-workspace
+logs/*
+!logs/.gitkeep
 **.paw
 *.log

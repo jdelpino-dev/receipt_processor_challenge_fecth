@@ -81,9 +81,9 @@ If you have trouble running the app or accessing the API, please ensure that por
 
 If don't want to run the app in debug mode you must use a different command to run the app. this command will override the original command in the Dockerfile and will run the app in regular mode.
 
-\```bash
+```bash
 docker run -p 5001:5000 -e FLASK_APP=app.py receipt-processor:latest flask run --host=0.0.0.0
-\```
+```
 
 #### Port Troubleshooting
 
@@ -93,9 +93,9 @@ All the port troubleshooting mentioned above applies to this command as well.
 
 To run the unit tests inside the Docker container, use:
 
-\```bash
+```bash
 docker run receipt-processor:latest python -m pytest -v
-\```
+```
 
 This command will execute all the tests and display the results.
 
@@ -109,6 +109,12 @@ This command will execute all the tests and display the results.
 
 ```bash
 `python -m pytest -v'
+```
+
+Or this in case your usgin docker:
+
+```bash
+docker run receipt-processor:latest python -m pytest -v
 ```
 
 - The current test suite is not comprehensive and does not include end-to-end tests. The current tests are meant to serve as a foundation for future tests.
