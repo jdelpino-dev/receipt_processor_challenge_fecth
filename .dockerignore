@@ -1,0 +1,15 @@
+# Ignore directories
+.git/
+.vscode/
+.pytest_cache/
+__pycache__/
+rapidAPI/
+logs/
+other_envs_jmd/
+keys/
+challenge_docs/
+
+# Ignore files
+*.log
+*.code-workspace
+setup.cfg
