@@ -13,3 +13,4 @@ challenge_docs/
 *.log
 *.code-workspace
 setup.cfg
+.gitignore
