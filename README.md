@@ -1,8 +1,6 @@
 # Receipt Processor API and Microservice
 
-### Fetch Rewards Backend Engineering Apprenticeship Coding Exercise
-
-**Solution by:** José Delpino [delpinoivivas@gmail.com](mailto:delpinoivivas@gmail.com)
+**By:** José Delpino [delpinoivivas@gmail.com](mailto:delpinoivivas@gmail.com)
 
 **September 2023**
 
@@ -27,7 +25,7 @@
 
 ## Introduction
 
-The Receipt Processor API is designed to handle the processing of receipts and award points based on specific criteria. This document provides a detailed explanation of the solution, its design considerations, and potential improvements.
+The Receipt Processor API and microservice is designed to handle the processing of receipts and award points based on specific criteria. This document provides a detailed explanation of the solution, its design considerations, and potential improvements.
 
 ## Design Context
 
